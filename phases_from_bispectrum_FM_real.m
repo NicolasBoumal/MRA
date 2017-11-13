@@ -35,7 +35,7 @@ function zout = phases_from_bispectrum_FM_real(B, z0, z1)
     psi(2) = angle(z1);
 
 
-    for ii = 3 : (N+1)/2
+    for ii = 3 : ceil((N+1)/2)
 
         psi_est = zeros(ceil(ii/2)-1,1);
 
@@ -51,13 +51,10 @@ function zout = phases_from_bispectrum_FM_real(B, z0, z1)
     end
 
     if N/2 == floor(N/2)
-        psi_mid = 0;
+        psi = [angle(z0) ; psi(2:end)  ; flipud(-psi(2:end-1))];
     else
-        psi_mid = [];
+        psi = [angle(z0) ; psi(2:end)  ; flipud(-psi(2:end))];    
     end
-    
-    % Use symmetries due to the signal being real.
-    psi = [angle(z0) ; psi(2:end) ; psi_mid ; flipud(-psi(2:end))];
 
     zout = exp(1i*psi);
 
